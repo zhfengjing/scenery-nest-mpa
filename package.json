@@ -25,7 +25,10 @@
     "pm2:stop": "pm2 stop scenery-mpa-nest",
     "pm2:delete": "pm2 delete scenery-mpa-nest",
     "pm2:logs": "pm2 logs scenery-mpa-nest",
-    "pm2:monit": "pm2 monit"
+    "pm2:monit": "pm2 monit",
+    "deploy:setup": "pm2 deploy ecosystem.config.js production setup",
+    "deploy": "pm2 deploy ecosystem.config.js production",
+    "deploy:revert": "pm2 deploy ecosystem.config.js production revert 1"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
