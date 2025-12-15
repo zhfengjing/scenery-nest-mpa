@@ -46,7 +46,10 @@ module.exports = {
     env_production: {
       NODE_ENV: 'production',
       PORT: 8000,
-      instances: 'max'
+      instances: 'max',
+      // 数据库连接字符串（需要替换为实际数据库地址）
+      // 格式: postgresql://username:password@host:port/database
+      DATABASE_URL: 'postgresql://user:password@localhost:5432/dbname'
     },
 
     // 错误日志文件路径
@@ -84,8 +87,8 @@ module.exports = {
       // 本地部署前执行的命令
       'pre-deploy-local': '',
 
-      // 远程服务器部署后执行的命令：安装依赖 -> 生成 Prisma Client -> 构建项目 -> 重载应用
-      'post-deploy': 'npm install && npx prisma generate && npm run build && pm2 reload ecosystem.config.js --env production',
+      // 远程服务器部署后执行的命令：安装依赖 -> 生成 Prisma Client -> 构建项目 -> 启动/重载应用
+      'post-deploy': 'npm install && npx prisma generate && npm run build && pm2 startOrReload ecosystem.config.example.js --name scenery-nestjs --env production --update-env',
 
       // 首次设置时执行的命令
       'pre-setup': ''
