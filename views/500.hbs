@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - 服务器错误</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .error-card {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+        }
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            color: #e67e22;
+            margin: 0;
+            line-height: 1;
+            background: linear-gradient(135deg, #f5576c, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .error-title {
+            font-size: 32px;
+            color: #2c3e50;
+            margin: 20px 0 10px;
+        }
+        .error-description {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .error-tips {
+            background: #fff3cd;
+            border-left: 4px solid #f5576c;
+            padding: 15px 20px;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 4px;
+        }
+        .error-tips h4 {
+            margin: 0 0 10px 0;
+            color: #856404;
+            font-size: 16px;
+        }
+        .error-tips ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #856404;
+        }
+        .error-tips li {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .error-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .error-link {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #f5576c;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .error-link:hover {
+            background: #e74c3c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+        }
+        .error-link.secondary {
+            background: #95a5a6;
+        }
+        .error-link.secondary:hover {
+            background: #7f8c8d;
+            box-shadow: 0 4px 12px rgba(149, 165, 166, 0.4);
+        }
+        .error-illustration {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-card">
+            <svg class="error-illustration" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="80" fill="#ecf0f1"/>
+                <path d="M60 120 Q100 140 140 120" stroke="#f5576c" stroke-width="4" fill="none"/>
+                <circle cx="75" cy="85" r="8" fill="#f5576c"/>
+                <circle cx="125" cy="85" r="8" fill="#f5576c"/>
+                <line x1="65" y1="80" x2="80" y2="70" stroke="#f5576c" stroke-width="4"/>
+                <line x1="120" y1="70" x2="135" y2="80" stroke="#f5576c" stroke-width="4"/>
+            </svg>
+
+            <h1 class="error-code">500</h1>
+            <h2 class="error-title">服务器内部错误</h2>
+            <p class="error-description">
+                抱歉，服务器遇到了一个意外错误，无法完成您的请求。<br>
+                我们的技术团队已经收到通知，正在紧急处理。
+            </p>
+
+            <div class="error-tips">
+                <h4>您可以尝试：</h4>
+                <ul>
+                    <li>刷新页面重试</li>
+                    <li>稍后再次访问</li>
+                    <li>清除浏览器缓存后重试</li>
+                    <li>如果问题持续存在，请联系管理员</li>
+                </ul>
+            </div>
+
+            <div class="error-actions">
+                <a href="javascript:location.reload()" class="error-link">刷新页面</a>
+                <a href="/" class="error-link secondary">返回首页</a>
+                <a href="/users.html" class="error-link secondary">用户管理</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 页面未找到</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .error-card {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+        }
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 0;
+            line-height: 1;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .error-title {
+            font-size: 32px;
+            color: #2c3e50;
+            margin: 20px 0 10px;
+        }
+        .error-description {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .error-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .error-link {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .error-link:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        }
+        .error-link.secondary {
+            background: #95a5a6;
+        }
+        .error-link.secondary:hover {
+            background: #7f8c8d;
+            box-shadow: 0 4px 12px rgba(149, 165, 166, 0.4);
+        }
+        .error-illustration {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-card">
+            <svg class="error-illustration" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="80" fill="#ecf0f1"/>
+                <path d="M60 110 Q100 80 140 110" stroke="#e74c3c" stroke-width="4" fill="none"/>
+                <circle cx="75" cy="85" r="8" fill="#e74c3c"/>
+                <circle cx="125" cy="85" r="8" fill="#e74c3c"/>
+            </svg>
+
+            <h1 class="error-code">404</h1>
+            <h2 class="error-title">页面未找到</h2>
+            <p class="error-description">
+                抱歉，您访问的页面不存在或已被移除。<br>
+                请检查URL是否正确，或返回首页。
+            </p>
+            {{!-- <p class="error-description">错误详情: {{ message }}</p> --}}
+            {{!-- <p class="error-description">请求路径: {{ path }}</p> --}}
+            <div class="error-actions">
+                <a href="/" class="error-link">返回首页</a>
+                <a href="/user" class="error-link secondary">用户管理</a>
+                <a href="javascript:history.back()" class="error-link secondary">返回上一页</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
