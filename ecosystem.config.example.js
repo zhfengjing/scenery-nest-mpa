@@ -84,8 +84,8 @@ module.exports = {
       // 本地部署前执行的命令
       'pre-deploy-local': '',
 
-      // 远程服务器部署后执行的命令：安装依赖 -> 构建项目 -> 重载应用
-      'post-deploy': 'npm install && npm run build && pm2 reload ecosystem.config.js --env production',
+      // 远程服务器部署后执行的命令：安装依赖 -> 生成 Prisma Client -> 构建项目 -> 重载应用
+      'post-deploy': 'npm install && npx prisma generate && npm run build && pm2 reload ecosystem.config.js --env production',
 
       // 首次设置时执行的命令
       'pre-setup': ''
