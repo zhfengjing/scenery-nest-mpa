@@ -1,5 +1,6 @@
 // API基础URL
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = '';
+// const API_BASE_URL = 'http://localhost:8000';
 
 // 全局状态
 let currentEditingId = null;

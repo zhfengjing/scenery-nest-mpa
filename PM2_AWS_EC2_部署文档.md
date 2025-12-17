@@ -688,10 +688,10 @@ git push origin master
 
 ```bash
 # 方式 1：通过 SSH 查看
-ssh -i ~/.ssh/my-ec2-key.pem ec2-user@98.80.11.17 "pm2 list"
+ssh -i ~/.ssh/my-aws-ec2-key.pem ec2-user@98.80.11.17 "pm2 list"
 
 # 方式 2：登录服务器查看
-ssh -i ~/.ssh/my-ec2-key.pem ec2-user@98.80.11.17
+ssh -i ~/.ssh/my-aws-ec2-key.pem ec2-user@98.80.11.17
 pm2 list
 ```
 
