@@ -26,10 +26,17 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  // 返回用户管理页面（HTML）
   @Get('/')
   @Render('user')
+  getUserPage() {
+    return {};
+  }
+
+  // 获取所有用户列表（JSON API）
+  @Get('/list')
   findAll() {
-    // return this.userService.findAll();
+    return this.userService.findAll();
   }
 
   @Get(':id')

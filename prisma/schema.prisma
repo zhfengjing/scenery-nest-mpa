@@ -1,24 +1,47 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// ============================================
+// Prisma Schema 文件
+// ============================================
+// 这是 Prisma 的数据模型定义文件
+// 文档：https://pris.ly/d/prisma-schema
+// 加速查询：https://pris.ly/cli/accelerate-init
+// ============================================
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+// -------------------- 客户端生成器配置 --------------------
+// 配置 Prisma Client 的生成方式
 generator client {
-  provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
+  provider = "prisma-client-js"                    // 使用 JavaScript/TypeScript 客户端
+  output   = "../node_modules/.prisma/client"     // 客户端代码输出路径
 }
 
+// -------------------- 数据源配置 --------------------
+// 配置数据库连接信息
 datasource db {
-  provider = "postgresql"
+  provider = "postgresql"                          // 使用 PostgreSQL 数据库
 }
 
+// -------------------- 数据模型定义 --------------------
+
+/// 用户模型
+/// 存储系统用户的基本信息
 model User {
+  /// 用户 ID（主键，自动递增）
   id        Int      @id @default(autoincrement())
+
+  /// 用户昵称（最大长度 100 字符）
   nickname  String   @db.VarChar(100)
+
+  /// 用户邮箱（唯一约束，最大长度 255 字符）
   email     String   @unique @db.VarChar(255)
+
+  /// 年龄
+  age  String?  @db.VarChar(100)
+
+  /// 创建时间（自动设置为当前时间）
   createdAt DateTime @default(now()) @map("created_at")
+
+  /// 更新时间（自动更新为当前时间）
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  /// 映射到数据库表名 "users"
   @@map("users")
 }

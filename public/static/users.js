@@ -10,6 +10,7 @@ const userForm = document.getElementById('user-form');
 const userIdInput = document.getElementById('user-id');
 const nicknameInput = document.getElementById('nickname');
 const emailInput = document.getElementById('email');
+const ageInput = document.getElementById('age');
 const submitBtn = document.getElementById('submit-btn');
 const cancelBtn = document.getElementById('cancel-btn');
 const formTitle = document.getElementById('form-title');
@@ -94,8 +95,8 @@ async function fetchUsers() {
     showLoading();
 
     try {
-        const response = await fetch(`${API_BASE_URL}/user`);
-
+        const response = await fetch(`${API_BASE_URL}/user/list`);
+        console.log('respones=', response);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -124,6 +125,7 @@ function renderUsers(users) {
             <td>${user.id}</td>
             <td>${escapeHtml(user.nickname)}</td>
             <td>${escapeHtml(user.email)}</td>
+            <td>${user.age ? escapeHtml(user.age) : '-'}</td>
             <td>${formatDate(user.createdAt)}</td>
             <td>${formatDate(user.updatedAt)}</td>
             <td class="text-center">
@@ -237,12 +239,12 @@ async function editUser(id) {
         userIdInput.value = user.id;
         nicknameInput.value = user.nickname;
         emailInput.value = user.email;
+        ageInput.value = user.age || '';
 
         // 更新UI
         currentEditingId = id;
         formTitle.textContent = '编辑用户';
         submitBtn.querySelector('.btn-text').textContent = '更新用户';
-        submitBtn.querySelector('.btn-icon').textContent = '✓';
         submitBtn.className = 'btn btn-success';
         cancelBtn.style.display = 'inline-flex';
 
@@ -261,7 +263,7 @@ function cancelEdit() {
     userIdInput.value = '';
     formTitle.textContent = '添加新用户';
     submitBtn.querySelector('.btn-text').textContent = '添加用户';
-    submitBtn.querySelector('.btn-icon').textContent = '+';
+    // submitBtn.querySelector('.btn-icon').textContent = '+';
     submitBtn.className = 'btn btn-primary';
     cancelBtn.style.display = 'none';
 }
@@ -287,6 +289,11 @@ userForm.addEventListener('submit', async (e) => {
         nickname: nicknameInput.value.trim(),
         email: emailInput.value.trim(),
     };
+
+    // 如果年龄字段有值，则添加到 userData
+    if (ageInput.value.trim()) {
+        userData.age = ageInput.value.trim();
+    }
 
     // 禁用提交按钮防止重复提交
     submitBtn.disabled = true;

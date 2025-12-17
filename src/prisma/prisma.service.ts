@@ -21,7 +21,7 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     this.readPool = new Pool({
       connectionString: readUrl,
     });
-
+    console.log('this.readPool=', this.readPool);
     // 使用适配器创建Prisma客户端
     const writeAdapter = new PrismaPg(this.writePool);
     this.writeClient = new PrismaClient({ adapter: writeAdapter });
