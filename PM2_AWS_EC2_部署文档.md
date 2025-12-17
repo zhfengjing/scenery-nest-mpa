@@ -549,7 +549,7 @@ git remote -v
 # 应该显示正确的远程仓库地址
 
 # 验证 SSH 连接
-ssh -i ~/.ssh/my-ec2-key.pem ec2-user@98.80.11.17 "echo 'Connection OK'"
+ssh -i ~/.ssh/my-aws-ec2-key.pem.pem ec2-user@98.80.11.17 "echo 'Connection OK'"
 # 应该输出: Connection OK
 ```
 
