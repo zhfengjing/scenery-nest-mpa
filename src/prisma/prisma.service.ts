@@ -12,10 +12,13 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
 
   constructor() {
     // 创建写库连接池
+    console.log(`prisma-service-DATABASE_URL= ${process.env.DATABASE_URL}`);
+    console.log(
+      `prisma-service-DATABASE_READ_URL= ${process.env.DATABASE_READ_URL}`,
+    );
     this.writePool = new Pool({
       connectionString: process.env.DATABASE_URL,
     });
-
     // 创建读库连接池
     const readUrl = process.env.DATABASE_READ_URL || process.env.DATABASE_URL;
     this.readPool = new Pool({
