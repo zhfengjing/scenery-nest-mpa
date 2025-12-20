@@ -28,7 +28,7 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
       connectionString: readUrl,
       ssl: {
         rejectUnauthorized: false, // 不验证书
-      }
+      },
     });
     console.log('this.readPool=', this.readPool);
     // 使用适配器创建Prisma客户端
