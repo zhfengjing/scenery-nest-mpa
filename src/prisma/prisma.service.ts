@@ -55,7 +55,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
     const readAdapter = new PrismaPg(this.readPool);
     this.readClient = new PrismaClient({ adapter: readAdapter });
     // console.log('this.writeClient', this.writeClient.user);
-    console.log('this.readClient', this.readClient.user);
+    // console.log('this.readClient', this.readClient.user);
   }
 
   async onModuleInit() {
