@@ -18,11 +18,17 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     );
     this.writePool = new Pool({
       connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false  // 不验证书
+      }
     });
     // 创建读库连接池
     const readUrl = process.env.DATABASE_READ_URL || process.env.DATABASE_URL;
     this.readPool = new Pool({
       connectionString: readUrl,
+      ssl: {
+        rejectUnauthorized: false  // 不验证书
+      }
     });
     console.log('this.readPool=', this.readPool);
     // 使用适配器创建Prisma客户端
