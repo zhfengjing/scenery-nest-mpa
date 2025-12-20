@@ -4,10 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .github-info {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            max-width: 600px;
+        }
+        .github-info h4 {
+            margin-top: 0;
+        }
+        .info-item {
+            margin: 10px 0;
+        }
+        .loading {
+            color: #666;
+        }
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <h3>{{message}}</h3>
-    
     <a href="/user">Go to User Manage Page</a>
+    <div class="github-info">
+        <h4>GitHub Account Info</h4>
+        <div id="githubData" class="loading">Loading...</div>
+    </div>
+
+
+    <script>
+        async function fetchGithubAccountInfo() {
+            try {
+                const response = await fetch('/getGithubAccountInfo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch GitHub account info');
+                }
+
+                const data = await response.json();
+                displayGithubInfo(data);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('githubData').innerHTML =
+                    '<p class="error">Failed to load GitHub account info</p>';
+            }
+        }
+
+        function displayGithubInfo(data) {
+            const container = document.getElementById('githubData');
+            container.innerHTML = `
+                <div class="info-item"><strong>Username:</strong> ${data.login || 'N/A'}</div>
+                <div class="info-item"><strong>Name:</strong> ${data.name || 'N/A'}</div>
+                <div class="info-item"><strong>Bio:</strong> ${data.bio || 'N/A'}</div>
+                <div class="info-item"><strong>Public Repos:</strong> ${data.public_repos || 0}</div>
+                <div class="info-item"><strong>Followers:</strong> ${data.followers || 0}</div>
+                <div class="info-item"><strong>Following:</strong> ${data.following || 0}</div>
+                <div class="info-item"><strong>Created At:</strong> ${data.created_at ? new Date(data.created_at).toLocaleDateString() : 'N/A'}</div>
+                ${data.avatar_url ? `<div class="info-item"><img src="${data.avatar_url}" alt="Avatar" width="100" style="border-radius: 50%;"></div>` : ''}
+            `;
+        }
+
+        // 页面加载后自动调用接口
+        window.addEventListener('DOMContentLoaded', fetchGithubAccountInfo);
+    </script>
 </body>
 </html>

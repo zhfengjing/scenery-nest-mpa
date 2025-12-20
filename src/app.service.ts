@@ -5,4 +5,16 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
+  async getGithubAccountInfo(): Promise<any> {
+    const res = await fetch('https://api.github.com/user', {
+      headers: {
+        Authorization: `Bearer ${process.env.githubToken}`,
+        'User-Agent': 'Scenery-NestJS', // 随便填一个名字
+        Accept: 'application/vnd.github+json',
+      },
+    });
+    const data = await res.json();
+    console.log('github-data=', data);
+    return data;
+  }
 }

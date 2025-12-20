@@ -1,4 +1,4 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Post, Render } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -11,6 +11,10 @@ export class AppController {
     return {
       message: 'Hi, Who are you?',
     };
+  }
+  @Post('/getGithubAccountInfo')
+  getGithubAccountInfo() {
+    return this.appService.getGithubAccountInfo();
   }
   getHello(): string {
     return this.appService.getHello();
