@@ -5,11 +5,11 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'node:path';
 import dotenv from 'dotenv';
 import serverlessExpress from '@vendia/serverless-express';
-import { Handler, Context, Callback } from 'aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 
 dotenv.config();
 
-let server: Handler;
+let cachedServer: any;
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -38,11 +38,12 @@ async function bootstrap() {
   return serverlessExpress({ app: expressApp });
 }
 
-export const handler: Handler = async (
-  event: any,
+export const handler = async (
+  event: APIGatewayProxyEvent,
   context: Context,
-  callback: Callback,
-) => {
-  server = server ?? (await bootstrap());
-  return server(event, context, callback);
+): Promise<APIGatewayProxyResult> => {
+  if (!cachedServer) {
+    cachedServer = await bootstrap();
+  }
+  return cachedServer(event, context);
 };

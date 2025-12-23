@@ -1,0 +1,100 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Simple NestJS Application on Lambda (No VPC, No RDS)
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+    Description: Environment name
+
+  GithubToken:
+    Type: String
+    NoEcho: true
+    Description: GitHub Personal Access Token
+    
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    Runtime: nodejs20.x
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        NODE_ENV: !Ref Environment
+
+Resources:
+  # ==================== Lambda Function ====================
+  NestJSFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-nestjs-app
+      CodeUri: ./
+      Handler: dist/src/lambda.handler
+      Description: NestJS application running on Lambda (Simple version without VPC)
+      Environment:
+        Variables:
+          NODE_ENV: !Ref Environment
+          GITHUB_TOKEN: !Ref GithubToken
+          # 暂时不连接数据库，或使用外部数据库
+          # DATABASE_URL: 你的外部数据库URL
+      Events:
+        ApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /{proxy+}
+            Method: ANY
+        RootApiEvent:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /
+            Method: ANY
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: '*'
+
+  # ==================== API Gateway ====================
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: $default
+      CorsConfiguration:
+        AllowOrigins:
+          - '*'
+        AllowHeaders:
+          - '*'
+        AllowMethods:
+          - '*'
+        MaxAge: 600
+
+  # ==================== CloudWatch Log Groups ====================
+  NestJSFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${NestJSFunction}
+      RetentionInDays: 7
+
+Outputs:
+  ApiUrl:
+    Description: API Gateway endpoint URL
+    Value: !Sub 'https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/'
+
+  LambdaFunctionArn:
+    Description: Lambda Function ARN
+    Value: !GetAtt NestJSFunction.Arn
+
+  LambdaFunctionName:
+    Description: Lambda Function Name
+    Value: !Ref NestJSFunction

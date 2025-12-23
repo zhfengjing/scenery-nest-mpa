@@ -29,6 +29,11 @@ Parameters:
     Default: 10.0.0.0/16
     Description: VPC CIDR block
 
+  GithubToken:
+    Type: String
+    NoEcho: true
+    Description: GitHub Personal Access Token
+
 Globals:
   Function:
     Timeout: 30
@@ -277,7 +282,7 @@ Resources:
     Properties:
       FunctionName: !Sub ${AWS::StackName}-nestjs-app
       CodeUri: ./
-      Handler: dist/lambda.handler
+      Handler: dist/src/lambda.handler
       Description: NestJS application running on Lambda
       VpcConfig:
         SecurityGroupIds:
@@ -291,6 +296,7 @@ Resources:
           DATABASE_URL: !Sub 'postgresql://${DBUsername}:${DBPassword}@${RDSMasterInstance.Endpoint.Address}:5432/postgres'
           DATABASE_READ_URL: !Sub 'postgresql://${DBUsername}:${DBPassword}@${RDSReadReplica.Endpoint.Address}:5432/postgres'
           NODE_ENV: !Ref Environment
+          GITHUB_TOKEN: !Ref GithubToken
       Events:
         ApiEvent:
           Type: HttpApi
@@ -313,19 +319,19 @@ Resources:
                 - logs:CreateLogStream
                 - logs:PutLogEvents
               Resource: '*'
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: false
-        Target: es2020
-        Sourcemap: true
-        External:
-          - '@nestjs/microservices'
-          - '@nestjs/websockets'
-          - 'class-transformer/storage'
-          - 'cache-manager'
-        EntryPoints:
-          - src/lambda.ts
+    # Metadata:
+    #   BuildMethod: esbuild
+    #   BuildProperties:
+    #     Minify: false
+    #     Target: es2020
+    #     Sourcemap: true
+    #     External:
+    #       - '@nestjs/microservices'
+    #       - '@nestjs/websockets'
+    #       - 'class-transformer/storage'
+    #       - 'cache-manager'
+    #     EntryPoints:
+    #       - src/lambda.ts
 
   # ==================== API Gateway ====================
   HttpApi:
