@@ -329,11 +329,50 @@ Resources:
           - '*'
         MaxAge: 600
 
+  # ==================== Database Migration Function ====================
+  MigrationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-db-migration
+      CodeUri: ./
+      Handler: dist/src/migrate.handler
+      Description: Database migration function using Prisma
+      Timeout: 300  # 5 minutes for migration operations
+      MemorySize: 1024
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref LambdaSecurityGroup
+        SubnetIds:
+          - !Ref PrivateSubnet1
+          - !Ref PrivateSubnet2
+      Environment:
+        Variables:
+          DATABASE_URL: !Sub 'postgresql://${DBUsername}:${DBPassword}@${RDSMasterInstance.Endpoint.Address}:5432/postgres'
+          NODE_ENV: !Ref Environment
+          PRISMA_CLI_BINARY_TARGETS: rhel-openssl-3.0.x
+          PRISMA_QUERY_ENGINE_LIBRARY: /var/task/node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node
+          PRISMA_QUERY_ENGINE_BINARY: /var/task/node_modules/.prisma/client/query-engine-rhel-openssl-3.0.x
+      Policies:
+        - VPCAccessPolicy: {}
+        - Statement:
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: '*'
+
   # ==================== CloudWatch Log Groups ====================
   NestJSFunctionLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: !Sub /aws/lambda/${NestJSFunction}
+      RetentionInDays: 7
+
+  MigrationFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${MigrationFunction}
       RetentionInDays: 7
 
 Outputs:
@@ -369,6 +408,14 @@ Outputs:
   LambdaFunctionArn:
     Description: Lambda Function ARN
     Value: !GetAtt NestJSFunction.Arn
+
+  MigrationFunctionArn:
+    Description: Migration Function ARN
+    Value: !GetAtt MigrationFunction.Arn
+
+  MigrationFunctionName:
+    Description: Migration Function Name
+    Value: !Ref MigrationFunction
 
   NatGatewayId:
     Description: NAT Gateway ID

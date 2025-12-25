@@ -9,14 +9,16 @@
 // -------------------- 客户端生成器配置 --------------------
 // 配置 Prisma Client 的生成方式
 generator client {
-  provider = "prisma-client-js"                    // 使用 JavaScript/TypeScript 客户端
-  output   = "../node_modules/.prisma/client"     // 客户端代码输出路径
+  provider      = "prisma-client-js"                    // 使用 JavaScript/TypeScript 客户端
+  output        = "../node_modules/.prisma/client"     // 客户端代码输出路径
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]     // 支持 AWS Lambda (Amazon Linux 2023)
 }
 
 // -------------------- 数据源配置 --------------------
 // 配置数据库连接信息
 datasource db {
   provider = "postgresql"                          // 使用 PostgreSQL 数据库
+  // Prisma 7.x 要求将 url 配置移到 prisma.config.ts 文件中
 }
 
 // -------------------- 数据模型定义 --------------------

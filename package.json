@@ -34,7 +34,10 @@
     "pm2:monit": "pm2 monit",
     "deploy:setup": "pm2 deploy ecosystem.config.js production setup",
     "deploy": "pm2 deploy ecosystem.config.js production",
-    "deploy:revert": "pm2 deploy ecosystem.config.js production revert 1"
+    "deploy:revert": "pm2 deploy ecosystem.config.js production revert 1",
+    "migrate:deploy": "bash scripts/run-migration.sh deploy",
+    "migrate:status": "bash scripts/run-migration.sh status",
+    "migrate:reset": "bash scripts/run-migration.sh reset"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
